@@ -30,7 +30,7 @@ class ApiAssembler implements Assebmbler {
       case Environment.production:
         locator.registerSingleton<ArtemisClient>(
           ArtemisClient(
-            'https://linkhub-564ef.web.app/api/graphql',
+            'https://api-linkhub.web.app/api/graphql',
             httpClient: _client,
           ),
         );

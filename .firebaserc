@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "linkhub-564ef"
+  },
+  "targets": {
+    "linkhub-564ef": {
+      "hosting": {
+        "app": [
+          "app-linkhub"
+        ]
+      }
+    }
+  }
+}
