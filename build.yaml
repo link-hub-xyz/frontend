@@ -1,0 +1,28 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+    builders:
+      artemis:
+        options:
+          scalar_mapping:
+            - graphql_type: URL
+              dart_type: String
+          #   - graphql_type: Date
+          #     dart_type: DateTime
+          #   - graphql_type: DateTime
+          #     dart_type: DateTime
+          #   - graphql_type: ID
+          #     dart_type: Id
+          #     custom_parser_import: 'package:flowcode_scanner/core/network/graphql/types/id.dart'
+          #   - graphql_type: JSONString
+          #     dart_type: Map
+          #     custom_parser_import: 'package:flowcode_scanner/core/network/graphql/types/json_string.dart'
+          schema_mapping:
+            - output: lib/core/api/api.dart
+              schema: 'lib/core/api/sdl.gql'
+              queries_glob: lib/core/api/**.graphql
+            # - output: lib/core/network/graphql/mohawk/api.dart
+            #   schema: 'lib/core/network/graphql/mohawk/sdl.gql'
+            #   queries_glob: lib/core/network/graphql/mohawk/**.graphql
+            

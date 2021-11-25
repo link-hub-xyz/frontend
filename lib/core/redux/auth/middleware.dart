@@ -87,19 +87,9 @@ void _signOutMiddleware<State>(
   }
 }
 
-void _failureMiddleware<State>(
-  Store<State> store,
-  FailureAuthAction action,
-  NextDispatcher next,
-) {
-  next(action);
-  next(AlertAction(reason: action.error.description));
-}
-
 final List<Middleware<AppState>> authMiddlewares = [
   TypedMiddleware<AppState, SignInWithAppleAction>(_signInWithApple),
   TypedMiddleware<AppState, SignInWithFacebookAction>(_signInWithFacebook),
   TypedMiddleware<AppState, SignInWithGoogleAction>(_signInWithGogle),
   TypedMiddleware<AppState, SignOutAction>(_signOutMiddleware),
-  TypedMiddleware<AppState, FailureAuthAction>(_failureMiddleware),
 ];

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class WebContainer extends StatelessWidget {
+  final Widget? title;
   final Widget child;
-  const WebContainer({Key? key, required this.child}) : super(key: key);
+
+  const WebContainer({
+    Key? key,
+    this.title,
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(

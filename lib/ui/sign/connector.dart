@@ -10,6 +10,7 @@ class SignConnector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, SignProps>(
+        distinct: true,
         converter: (store) => SignProps(
           google: () => store.dispatch(const SignInWithGoogleAction()),
         ),

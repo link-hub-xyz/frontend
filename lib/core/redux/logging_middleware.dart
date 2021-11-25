@@ -8,11 +8,4 @@ class LoggingMiddleware extends MiddlewareClass {
     next(action);
     print('${action.runtimeType} = ${action.toString()}');
   }
-
-  // @override
-  // void call<State>(Store<State> store, action, next) async {
-  // next(action);
-
-  // print('${action.runtimeType} = ${action.toString()}');
-  // }
 }

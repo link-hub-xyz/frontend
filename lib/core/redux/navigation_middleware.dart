@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linkhub/misc/app_config.dart';
+import 'package:linkhub/misc/router_assembler.dart';
 import 'package:redux/redux.dart';
 
 import 'actions.dart';
@@ -8,10 +8,11 @@ class NavigationMiddleware extends MiddlewareClass {
   @override
   call(Store store, action, NextDispatcher next) {
     next(action);
-    switch (action.runtimeType) {
-      case AlertAction:
-        final context = navigatorKey.currentContext;
-        if (context != null) {
+
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      switch (action.runtimeType) {
+        case AlertAction:
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(action.reason),
@@ -19,9 +20,9 @@ class NavigationMiddleware extends MiddlewareClass {
               width: 256,
             ),
           );
-        }
 
-        break;
+          break;
+      }
     }
   }
 }

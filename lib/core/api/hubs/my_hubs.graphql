@@ -1,0 +1,14 @@
+query MyHubs() { 
+  users {
+    me {
+      hubs {
+        id
+        name
+        items {
+          id
+          url
+        }
+      }
+    }
+  }
+}

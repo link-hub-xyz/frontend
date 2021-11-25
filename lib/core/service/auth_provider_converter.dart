@@ -1,4 +1,4 @@
-import 'package:linkhub/core/redux/model/auth_provider.dart';
+import 'package:linkhub/core/model/auth_provider.dart';
 
 const String _apple = 'apple.com';
 const String _google = 'google.com';

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,10 +10,10 @@ import 'package:linkhub/core/redux/service/firebase_service.dart';
 import 'package:linkhub/core/redux/service/service.dart';
 import 'package:linkhub/core/redux/middleware.dart';
 import 'package:linkhub/misc/app_assembler.dart';
-import 'package:linkhub/ui/root/widget.dart';
-import 'package:linkhub/ui/sign/connector.dart';
 import 'package:linkhub/core/redux/reducer.dart';
 import 'package:linkhub/core/redux/state.dart';
+
+import 'app_router.dart';
 
 enum Environment {
   development,
@@ -28,7 +29,7 @@ class AppConfig {
 
   Future run() async {
     WidgetsFlutterBinding.ensureInitialized();
-    AppAssembler().assemble(GetIt.instance);
+    AppAssembler(environment: environment).assemble(GetIt.instance);
 
     LicenseRegistry.addLicense(() async* {
       final license = await rootBundle.loadString('google_fonts/OFL.txt');
@@ -55,8 +56,6 @@ class AppConfig {
   }
 }
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 @immutable
 class LinkHubApp extends StatelessWidget {
   final ThemeData theme = ThemeData();
@@ -64,29 +63,38 @@ class LinkHubApp extends StatelessWidget {
   LinkHubApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        navigatorKey: navigatorKey,
-        title: 'LinkHub',
-        theme: theme.copyWith(
-          textTheme: GoogleFonts.notoSansTextTheme(),
-          colorScheme: theme.colorScheme.copyWith(
-            primary: Colors.deepOrange,
-            secondary: Colors.deepPurpleAccent,
+  Widget build(BuildContext context) => StoreConnector<AppState, bool>(
+        distinct: true,
+        converter: (store) => store.state.auth.isAuthorised,
+        builder: (context, isAuthorized) => MaterialApp.router(
+          routerDelegate: AutoRouterDelegate.declarative(
+            GetIt.instance.get<AppRouter>(),
+            routes: (_) => [isAuthorized ? const Main() : const Sign()],
           ),
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            titleTextStyle: GoogleFonts.notoSansTextTheme().headline4?.copyWith(
-                  fontSize: 21.0,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
-                ),
+          routeInformationParser:
+              GetIt.instance.get<AppRouter>().defaultRouteParser(),
+          title: 'LinkHub',
+          theme: theme.copyWith(
+            textTheme: GoogleFonts.notoSansTextTheme(),
+            colorScheme: theme.colorScheme.copyWith(
+              primary: Colors.deepOrange,
+              secondary: Colors.deepPurpleAccent,
+            ),
+            appBarTheme: AppBarTheme(
+              elevation: 8,
+              iconTheme: const IconThemeData(
+                color: Colors.black,
+              ),
+              backgroundColor: Colors.white,
+              titleTextStyle:
+                  GoogleFonts.notoSansTextTheme().headline4?.copyWith(
+                        fontSize: 21.0,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                      ),
+            ),
           ),
+          debugShowCheckedModeBanner: false,
         ),
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/sign',
-        routes: {
-          '/': (context) => const RootWidget(),
-          '/sign': (context) => const SignConnector(),
-        },
       );
 }
