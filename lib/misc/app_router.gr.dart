@@ -15,7 +15,7 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    Sign.name: (routeData) {
+    SignConnectorRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const SignConnector(),
@@ -24,10 +24,23 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    Main.name: (routeData) {
+    DashboardWidgetRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const MainConnector(),
+          child: const DashboardWidget(),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    HubsConnectorRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const HubsConnector());
+    },
+    ItemWidgetRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const ItemWidget(),
           transitionsBuilder: fadeTransition,
           durationInMilliseconds: 400,
           opaque: true,
@@ -39,21 +52,46 @@ class _$AppRouter extends RootStackRouter {
   List<RouteConfig> get routes => [
         RouteConfig('/#redirect',
             path: '/', redirectTo: '/sign', fullMatch: true),
-        RouteConfig(Sign.name, path: '/sign'),
-        RouteConfig(Main.name, path: '/main')
+        RouteConfig(SignConnectorRoute.name, path: '/sign'),
+        RouteConfig(DashboardWidgetRoute.name, path: '/dashboard', children: [
+          RouteConfig(HubsConnectorRoute.name,
+              path: '', parent: DashboardWidgetRoute.name),
+          RouteConfig(ItemWidgetRoute.name,
+              path: 'item', parent: DashboardWidgetRoute.name),
+          RouteConfig('*#redirect',
+              path: '*',
+              parent: DashboardWidgetRoute.name,
+              redirectTo: '',
+              fullMatch: true)
+        ])
       ];
 }
 
 /// generated route for [SignConnector]
-class Sign extends PageRouteInfo<void> {
-  const Sign() : super(name, path: '/sign');
+class SignConnectorRoute extends PageRouteInfo<void> {
+  const SignConnectorRoute() : super(name, path: '/sign');
 
-  static const String name = 'Sign';
+  static const String name = 'SignConnectorRoute';
 }
 
-/// generated route for [MainConnector]
-class Main extends PageRouteInfo<void> {
-  const Main() : super(name, path: '/main');
+/// generated route for [DashboardWidget]
+class DashboardWidgetRoute extends PageRouteInfo<void> {
+  const DashboardWidgetRoute({List<PageRouteInfo>? children})
+      : super(name, path: '/dashboard', initialChildren: children);
 
-  static const String name = 'Main';
+  static const String name = 'DashboardWidgetRoute';
+}
+
+/// generated route for [HubsConnector]
+class HubsConnectorRoute extends PageRouteInfo<void> {
+  const HubsConnectorRoute() : super(name, path: '');
+
+  static const String name = 'HubsConnectorRoute';
+}
+
+/// generated route for [ItemWidget]
+class ItemWidgetRoute extends PageRouteInfo<void> {
+  const ItemWidgetRoute() : super(name, path: 'item');
+
+  static const String name = 'ItemWidgetRoute';
 }

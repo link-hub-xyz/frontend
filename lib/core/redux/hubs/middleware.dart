@@ -26,13 +26,21 @@ void _reloadHubs(
       next(DidFailReloadHubsAction(reason: response.errors.toString()));
     }
 
-    final data = response.data;
-    if (data != null) {
+    final hubs = response.data?.users?.me?.hubs;
+    if (hubs != null) {
       next(
         DidReloadHubsAction(
-          hubs:
-              data.users?.me?.hubs.map((raw) => Hub(id: raw.id)).toList() ?? [],
+          hubs: (hubs + hubs + hubs + hubs)
+              .map((raw) => Hub(
+                    id: raw.id,
+                    name: raw.name,
+                  ))
+              .toList(),
         ),
+      );
+    } else {
+      next(
+        DidReloadHubsAction(hubs: List.empty()),
       );
     }
   } on gql.ServerException catch (e) {
