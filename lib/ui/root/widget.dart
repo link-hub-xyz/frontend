@@ -19,6 +19,10 @@ class RootWidget extends StatelessWidget {
             ],
           ),
         ),
-        body: const Text('loading...'),
+        body: const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 1.5,
+          ),
+        ),
       );
 }

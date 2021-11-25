@@ -16,12 +16,22 @@ class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     Sign.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const SignConnector());
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const SignConnector(),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
     },
     Main.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const MainConnector());
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const MainConnector(),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 

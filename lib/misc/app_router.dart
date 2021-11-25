@@ -8,10 +8,29 @@ part 'app_router.gr.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Connector,',
   routes: <AutoRoute>[
-    AutoRoute(path: '/sign', page: SignConnector, initial: true),
-    AutoRoute(path: '/main', page: MainConnector),
+    CustomRoute(
+      path: '/sign',
+      initial: true,
+      page: SignConnector,
+      transitionsBuilder: fadeTransition,
+      durationInMilliseconds: 400,
+    ),
+    CustomRoute(
+      path: '/main',
+      page: MainConnector,
+      transitionsBuilder: fadeTransition,
+      durationInMilliseconds: 400,
+    )
   ],
 )
 class AppRouter extends _$AppRouter {
   AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
 }
+
+Widget fadeTransition(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) =>
+    FadeTransition(opacity: animation, child: child);

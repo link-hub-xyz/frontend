@@ -39,7 +39,7 @@ dynamic firebase(FirebaseAuthException e) {
 }
 
 dynamic undefined(e) {
-  return DidFailSignInAction(
-    error: AuthError(description: e.toString()), //'Smth went wrong'
+  return const DidFailSignInAction(
+    error: AuthError(description: 'Smth went wrong'),
   );
 }

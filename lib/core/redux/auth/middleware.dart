@@ -1,4 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:linkhub/core/redux/actions.dart';
 import 'package:redux/redux.dart';
 import 'package:get_it/get_it.dart';
 import 'package:linkhub/core/service/credentials_builder.dart'
@@ -68,6 +71,14 @@ void _signInWithGogle<State>(
     }
   } on FirebaseAuthException catch (e) {
     next(await actionCreators.signIn.firebase(e));
+  } on PlatformException catch (e) {
+    switch (e.code) {
+      case 'popup_blocked_by_browser':
+        next(
+          const AlertAction(
+              reason: "Pop-up has been blocked.\nPlease, try once again."),
+        );
+    }
   } catch (e) {
     next(actionCreators.signIn.undefined(e));
   }
