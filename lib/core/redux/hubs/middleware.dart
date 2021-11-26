@@ -31,7 +31,7 @@ void _reloadHubs(
     if (hubs != null) {
       next(
         DidReloadHubsAction(
-          hubs: (hubs + hubs + hubs + hubs)
+          hubs: hubs
               .map((raw) => Hub(
                     id: raw.id,
                     name: raw.name,

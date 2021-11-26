@@ -18,7 +18,8 @@ HubsState _reloadingReducer(
 ) =>
     HubsState(
       status: DataStatus.inProgress,
-      list: state.list,
+      order: state.order,
+      map: state.map,
     );
 
 HubsState _didReloadReducer(
@@ -27,7 +28,12 @@ HubsState _didReloadReducer(
 ) =>
     HubsState(
       status: DataStatus.success,
-      list: action.hubs,
+      order: action.hubs.map((hub) => hub.id).toList(),
+      map: Map.from(state.map)
+        ..addAll(action.hubs.fold({}, (map, hub) {
+          map[hub.id] = hub;
+          return map;
+        })),
     );
 
 HubsState _didFailedReloadReducer(
@@ -36,7 +42,8 @@ HubsState _didFailedReloadReducer(
 ) =>
     HubsState(
       status: DataStatus.error,
-      list: state.list,
+      order: state.order,
+      map: state.map,
     );
 
 HubsState _signOutReducer(HubsState state, DidSignOutAction action) =>

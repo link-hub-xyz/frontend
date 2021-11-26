@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:linkhub/ui/analytics/widget.dart';
 import 'package:linkhub/ui/dashboard/connector.dart';
-import 'package:linkhub/ui/item/widget.dart';
+import 'package:linkhub/ui/hub/connector.dart';
 import 'package:linkhub/ui/main/widget.dart';
 import 'package:linkhub/ui/profile/widget.dart';
 import 'package:linkhub/ui/sign/connector.dart';
@@ -33,8 +33,8 @@ part 'app_router.gr.dart';
           durationInMilliseconds: 400,
         ),
         CustomRoute(
-          path: 'dashboard/item',
-          page: ItemWidget,
+          path: 'dashboard/hubs/:hub',
+          page: HubConnector,
           transitionsBuilder: fadeTransition,
           durationInMilliseconds: 400,
         ),

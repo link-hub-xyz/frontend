@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/model/data_status.dart';
+import 'package:linkhub/core/model/hub.dart';
 import 'package:linkhub/core/redux/hubs/actions.dart';
 import 'package:linkhub/core/redux/state.dart';
 import 'package:linkhub/misc/app_router.dart';
@@ -23,8 +24,11 @@ class DashboardConnector extends StatelessWidget {
           reload: store.state.hubs.status == DataStatus.inProgress
               ? null
               : () => store.dispatch(const ReloadHubsAction()),
-          hubs: store.state.hubs.list,
-          more: (id) => context.router.push(const ItemWidgetRoute()),
+          hubs: store.state.hubs.order
+              .map((id) => store.state.hubs.map[id])
+              .whereType<Hub>()
+              .toList(),
+          more: (id) => context.router.push(HubConnectorRoute(id: id)),
         ),
         builder: (context, props) => DashboardWidget(props: props),
       );

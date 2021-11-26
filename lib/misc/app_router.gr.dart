@@ -42,10 +42,13 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    ItemWidgetRoute.name: (routeData) {
+    HubConnectorRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<HubConnectorRouteArgs>(
+          orElse: () => HubConnectorRouteArgs(id: pathParams.getString('hub')));
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const ItemWidget(),
+          child: HubConnector(key: args.key, id: args.id),
           transitionsBuilder: fadeTransition,
           durationInMilliseconds: 400,
           opaque: true,
@@ -84,8 +87,8 @@ class _$AppRouter extends RootStackRouter {
               fullMatch: true),
           RouteConfig(DashboardConnectorRoute.name,
               path: 'dashboard', parent: MainWidgetRoute.name),
-          RouteConfig(ItemWidgetRoute.name,
-              path: 'dashboard/item', parent: MainWidgetRoute.name),
+          RouteConfig(HubConnectorRoute.name,
+              path: 'dashboard/hubs/:hub', parent: MainWidgetRoute.name),
           RouteConfig(AnalyticsWidgetRoute.name,
               path: 'analytics', parent: MainWidgetRoute.name),
           RouteConfig(ProfileWidgetRoute.name,
@@ -116,11 +119,28 @@ class DashboardConnectorRoute extends PageRouteInfo<void> {
   static const String name = 'DashboardConnectorRoute';
 }
 
-/// generated route for [ItemWidget]
-class ItemWidgetRoute extends PageRouteInfo<void> {
-  const ItemWidgetRoute() : super(name, path: 'dashboard/item');
+/// generated route for [HubConnector]
+class HubConnectorRoute extends PageRouteInfo<HubConnectorRouteArgs> {
+  HubConnectorRoute({Key? key, required String id})
+      : super(name,
+            path: 'dashboard/hubs/:hub',
+            args: HubConnectorRouteArgs(key: key, id: id),
+            rawPathParams: {'hub': id});
 
-  static const String name = 'ItemWidgetRoute';
+  static const String name = 'HubConnectorRoute';
+}
+
+class HubConnectorRouteArgs {
+  const HubConnectorRouteArgs({this.key, required this.id});
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'HubConnectorRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for [AnalyticsWidget]

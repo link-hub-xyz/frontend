@@ -4,21 +4,25 @@ import 'package:linkhub/core/model/hub.dart';
 
 class HubsState extends Equatable {
   final DataStatus status;
-  final List<Hub> list;
+  final List<String> order;
+  final Map<String, Hub> map;
 
   const HubsState({
     required this.status,
-    required this.list,
+    required this.order,
+    required this.map,
   });
 
   factory HubsState.initial() => const HubsState(
         status: DataStatus.initial,
-        list: [],
+        order: [],
+        map: {},
       );
 
   @override
   List<Object?> get props => [
         status,
-        list,
+        order,
+        map,
       ];
 }
