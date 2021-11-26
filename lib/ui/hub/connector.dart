@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:linkhub/core/model/data_status.dart';
 import 'package:linkhub/core/redux/state.dart';
 
 import 'widget.dart';
@@ -18,7 +19,8 @@ class HubConnector extends StatelessWidget {
         distinct: true,
         converter: (store) {
           return HubProps(
-            name: store.state.hubs.map[id]?.name,
+            hub: store.state.hubs.map[id],
+            status: DataStatus.initial,
           );
         },
         builder: (context, props) => HubWidget(props: props),

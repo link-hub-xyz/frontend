@@ -21,6 +21,9 @@ class DashboardConnector extends StatelessWidget {
           if (reload != null) reload();
         },
         converter: (store) => DashboardProps(
+          createHub: () => context.router.push(
+            const NewHubConnectorRoute(),
+          ),
           reload: store.state.hubs.status == DataStatus.inProgress
               ? null
               : () => store.dispatch(const ReloadHubsAction()),

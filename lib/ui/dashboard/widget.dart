@@ -8,11 +8,13 @@ class DashboardProps {
   VoidCallback? reload;
   List<Hub> hubs;
   void Function(String) more;
+  VoidCallback createHub;
 
   DashboardProps({
     required this.reload,
     required this.hubs,
     required this.more,
+    required this.createHub,
   });
 }
 
@@ -100,7 +102,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                         ),
                         Spacer(),
                         TextButton.icon(
-                          onPressed: () => {},
+                          onPressed: widget.props.createHub,
                           icon: Icon(Icons.add),
                           label: Text('Create hub'),
                         ),

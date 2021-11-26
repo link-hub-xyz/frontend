@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:linkhub/core/model/data_status.dart';
+import 'package:linkhub/core/model/hub.dart';
+
+import 'items_connector.dart';
+import 'items_widget.dart';
 
 class HubProps {
-  final String? name;
+  final Hub? hub;
+  final DataStatus status;
 
-  HubProps({required this.name});
+  HubProps({
+    required this.hub,
+    required this.status,
+  });
 }
 
 class HubWidget extends StatelessWidget {
@@ -14,12 +23,30 @@ class HubWidget extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          title: props.name?.isNotEmpty == true ? Text(props.name!) : null,
+          title:
+              props.hub?.name.isNotEmpty == true ? Text(props.hub!.name) : null,
         ),
-        body: const Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 1.5,
+        body: Stack(children: [
+          if (props.hub != null)
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(96.0),
+                child: Column(
+                  children: [
+                    ItemsConnector(id: props.hub!.id),
+                    // Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          Visibility(
+            visible: props.hub == null && props.status == DataStatus.inProgress,
+            child: const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 1.5,
+              ),
+            ),
           ),
-        ),
+        ]),
       );
 }

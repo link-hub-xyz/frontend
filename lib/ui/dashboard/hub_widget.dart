@@ -39,7 +39,18 @@ class _HubWidgetState extends State<HubWidget> {
                 dense: true,
                 leading: const Icon(Icons.device_hub),
                 title: Text(widget.hub.name),
-                subtitle: Text('12 items'),
+                subtitle: Text(
+                  () {
+                    switch (widget.hub.items.length) {
+                      case 0:
+                        return 'Empty hub';
+                      case 1:
+                        return '1 item';
+                      default:
+                        return '${widget.hub.items.length} items';
+                    }
+                  }(),
+                ),
                 trailing: Visibility(
                   visible: isHovered,
                   child: IconButton(
@@ -51,6 +62,9 @@ class _HubWidgetState extends State<HubWidget> {
               ListTile(
                 title: const Text('ID'),
                 subtitle: Text(widget.hub.id),
+              ),
+              ListTile(
+                title: const Text('Analytics graph?...'),
               ),
               const Spacer(),
               Visibility(

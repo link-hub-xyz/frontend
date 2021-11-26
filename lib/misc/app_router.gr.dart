@@ -42,6 +42,15 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    NewHubConnectorRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const NewHubConnector(),
+          transitionsBuilder: popupTransition,
+          durationInMilliseconds: 400,
+          opaque: false,
+          barrierDismissible: false);
+    },
     HubConnectorRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<HubConnectorRouteArgs>(
@@ -87,6 +96,8 @@ class _$AppRouter extends RootStackRouter {
               fullMatch: true),
           RouteConfig(DashboardConnectorRoute.name,
               path: 'dashboard', parent: MainWidgetRoute.name),
+          RouteConfig(NewHubConnectorRoute.name,
+              path: 'dashboard/hubs/new', parent: MainWidgetRoute.name),
           RouteConfig(HubConnectorRoute.name,
               path: 'dashboard/hubs/:hub', parent: MainWidgetRoute.name),
           RouteConfig(AnalyticsWidgetRoute.name,
@@ -117,6 +128,13 @@ class DashboardConnectorRoute extends PageRouteInfo<void> {
   const DashboardConnectorRoute() : super(name, path: 'dashboard');
 
   static const String name = 'DashboardConnectorRoute';
+}
+
+/// generated route for [NewHubConnector]
+class NewHubConnectorRoute extends PageRouteInfo<void> {
+  const NewHubConnectorRoute() : super(name, path: 'dashboard/hubs/new');
+
+  static const String name = 'NewHubConnectorRoute';
 }
 
 /// generated route for [HubConnector]

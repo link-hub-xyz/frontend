@@ -4,6 +4,7 @@ import 'package:linkhub/ui/analytics/widget.dart';
 import 'package:linkhub/ui/dashboard/connector.dart';
 import 'package:linkhub/ui/hub/connector.dart';
 import 'package:linkhub/ui/main/widget.dart';
+import 'package:linkhub/ui/new_hub/connector.dart';
 import 'package:linkhub/ui/profile/widget.dart';
 import 'package:linkhub/ui/sign/connector.dart';
 
@@ -30,6 +31,13 @@ part 'app_router.gr.dart';
           initial: true,
           page: DashboardConnector,
           transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+        ),
+        CustomRoute(
+          opaque: false,
+          path: 'dashboard/hubs/new',
+          page: NewHubConnector,
+          transitionsBuilder: popupTransition,
           durationInMilliseconds: 400,
         ),
         CustomRoute(
@@ -65,3 +73,36 @@ Widget fadeTransition(
   Widget child,
 ) =>
     FadeTransition(opacity: animation, child: child);
+
+Widget popupTransition(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) =>
+    FadeTransition(
+      opacity: animation,
+      child: Stack(
+        children: [
+          Container(
+            color: Theme.of(context).focusColor,
+          ),
+          Center(
+            child: Container(
+              constraints: BoxConstraints(
+                minHeight: 256,
+                minWidth: double.infinity,
+                maxHeight: 400,
+              ),
+              child: Navigator(
+                pages: [
+                  MaterialPage(child: child),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+// FractionallySizedBox

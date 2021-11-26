@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:linkhub/core/model/hub.dart';
+import 'package:linkhub/core/model/item.dart';
 import 'package:linkhub/core/redux/actions.dart';
 
 @immutable
@@ -15,7 +17,12 @@ class ReloadingHubsAction {
 @immutable
 class DidReloadHubsAction {
   final List<Hub> hubs;
-  const DidReloadHubsAction({required this.hubs});
+  final Map<String, Item> items;
+
+  const DidReloadHubsAction({
+    required this.hubs,
+    required this.items,
+  });
 }
 
 @immutable

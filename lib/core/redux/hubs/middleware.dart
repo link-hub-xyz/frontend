@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:artemis/artemis.dart';
 import 'package:get_it/get_it.dart';
 import 'package:linkhub/core/model/hub.dart';
+import 'package:linkhub/core/model/item.dart';
 import 'package:linkhub/core/redux/hubs/actions.dart';
 import 'package:linkhub/core/api/api.graphql.dart';
 import 'package:redux/redux.dart';
@@ -31,17 +32,24 @@ void _reloadHubs(
     if (hubs != null) {
       next(
         DidReloadHubsAction(
-          hubs: hubs
-              .map((raw) => Hub(
+            hubs: hubs
+                .map((raw) => Hub(
                     id: raw.id,
                     name: raw.name,
-                  ))
-              .toList(),
-        ),
+                    items: raw.items.map((raw) => raw.id)))
+                .toList(),
+            items: hubs
+                .map((hub) => hub.items)
+                .expand((item) => item)
+                .map((raw) => Item(
+                      id: raw.id,
+                      url: raw.url,
+                    ))
+                .fold({}, (map, item) => map..[item.id] = item)),
       );
     } else {
       next(
-        DidReloadHubsAction(hubs: List.empty()),
+        DidReloadHubsAction(hubs: List.empty(), items: Map.identity()),
       );
     }
   } on gql.ServerException catch (e) {
