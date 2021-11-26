@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkhub/core/redux/actions.dart';
 import 'package:redux/redux.dart';
 import 'package:get_it/get_it.dart';

@@ -42,6 +42,9 @@ class AppConfig {
       middleware: appMiddleware,
     );
 
+    final navigationObserver = AppNavigationObserver(store);
+    GetIt.instance.registerSingleton(navigationObserver);
+
     ServiceBuilder<AppState>()
       ..service(FirebaseService())
       // ..service(GraphQLService(environment: environment))
@@ -71,7 +74,7 @@ class LinkHubApp extends StatelessWidget {
             GetIt.instance.get<AppRouter>(),
             routes: (_) => [
               isAuthorized
-                  ? const DashboardWidgetRoute()
+                  ? const MainWidgetRoute()
                   : const SignConnectorRoute()
             ],
           ),
@@ -101,4 +104,20 @@ class LinkHubApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
         ),
       );
+}
+
+class AppNavigationObserver extends AutoRouterObserver {
+  final Store<AppState> store;
+
+  String? _route;
+  String? get currentRoute => _route;
+
+  AppNavigationObserver(this.store);
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    _route = route.settings.name;
+    // store.dispatch({});
+    print('New route pushed: ${route.settings.name}');
+  }
 }

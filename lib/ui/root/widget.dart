@@ -11,7 +11,7 @@ class RootWidget extends StatelessWidget {
           title: Row(
             children: [
               SvgPicture.asset(
-                'images/logo.svg',
+                'assets/images/logo.svg',
                 width: 24,
               ),
               const SizedBox(width: 8),

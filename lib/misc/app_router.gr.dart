@@ -24,23 +24,46 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    DashboardWidgetRoute.name: (routeData) {
+    MainWidgetRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const DashboardWidget(),
+          child: const MainWidget(),
           transitionsBuilder: fadeTransition,
           durationInMilliseconds: 400,
           opaque: true,
           barrierDismissible: false);
     },
-    HubsConnectorRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const HubsConnector());
+    DashboardConnectorRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const DashboardConnector(),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
     },
     ItemWidgetRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const ItemWidget(),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    AnalyticsWidgetRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const AnalyticsWidget(),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    ProfileWidgetRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const ProfileWidget(),
           transitionsBuilder: fadeTransition,
           durationInMilliseconds: 400,
           opaque: true,
@@ -53,16 +76,20 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig('/#redirect',
             path: '/', redirectTo: '/sign', fullMatch: true),
         RouteConfig(SignConnectorRoute.name, path: '/sign'),
-        RouteConfig(DashboardWidgetRoute.name, path: '/dashboard', children: [
-          RouteConfig(HubsConnectorRoute.name,
-              path: '', parent: DashboardWidgetRoute.name),
+        RouteConfig(MainWidgetRoute.name, path: '/main', children: [
+          RouteConfig('#redirect',
+              path: '',
+              parent: MainWidgetRoute.name,
+              redirectTo: 'dashboard',
+              fullMatch: true),
+          RouteConfig(DashboardConnectorRoute.name,
+              path: 'dashboard', parent: MainWidgetRoute.name),
           RouteConfig(ItemWidgetRoute.name,
-              path: 'item', parent: DashboardWidgetRoute.name),
-          RouteConfig('*#redirect',
-              path: '*',
-              parent: DashboardWidgetRoute.name,
-              redirectTo: '',
-              fullMatch: true)
+              path: 'dashboard/item', parent: MainWidgetRoute.name),
+          RouteConfig(AnalyticsWidgetRoute.name,
+              path: 'analytics', parent: MainWidgetRoute.name),
+          RouteConfig(ProfileWidgetRoute.name,
+              path: 'profile', parent: MainWidgetRoute.name)
         ])
       ];
 }
@@ -74,24 +101,38 @@ class SignConnectorRoute extends PageRouteInfo<void> {
   static const String name = 'SignConnectorRoute';
 }
 
-/// generated route for [DashboardWidget]
-class DashboardWidgetRoute extends PageRouteInfo<void> {
-  const DashboardWidgetRoute({List<PageRouteInfo>? children})
-      : super(name, path: '/dashboard', initialChildren: children);
+/// generated route for [MainWidget]
+class MainWidgetRoute extends PageRouteInfo<void> {
+  const MainWidgetRoute({List<PageRouteInfo>? children})
+      : super(name, path: '/main', initialChildren: children);
 
-  static const String name = 'DashboardWidgetRoute';
+  static const String name = 'MainWidgetRoute';
 }
 
-/// generated route for [HubsConnector]
-class HubsConnectorRoute extends PageRouteInfo<void> {
-  const HubsConnectorRoute() : super(name, path: '');
+/// generated route for [DashboardConnector]
+class DashboardConnectorRoute extends PageRouteInfo<void> {
+  const DashboardConnectorRoute() : super(name, path: 'dashboard');
 
-  static const String name = 'HubsConnectorRoute';
+  static const String name = 'DashboardConnectorRoute';
 }
 
 /// generated route for [ItemWidget]
 class ItemWidgetRoute extends PageRouteInfo<void> {
-  const ItemWidgetRoute() : super(name, path: 'item');
+  const ItemWidgetRoute() : super(name, path: 'dashboard/item');
 
   static const String name = 'ItemWidgetRoute';
+}
+
+/// generated route for [AnalyticsWidget]
+class AnalyticsWidgetRoute extends PageRouteInfo<void> {
+  const AnalyticsWidgetRoute() : super(name, path: 'analytics');
+
+  static const String name = 'AnalyticsWidgetRoute';
+}
+
+/// generated route for [ProfileWidget]
+class ProfileWidgetRoute extends PageRouteInfo<void> {
+  const ProfileWidgetRoute() : super(name, path: 'profile');
+
+  static const String name = 'ProfileWidgetRoute';
 }

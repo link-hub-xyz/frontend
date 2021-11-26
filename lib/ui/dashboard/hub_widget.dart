@@ -52,23 +52,26 @@ class _HubWidgetState extends State<HubWidget> {
                 subtitle: Text(widget.hub.id),
               ),
               const Spacer(),
-              ListTile(
-                title: Row(
-                  children: [
-                    const Spacer(),
-                    TextButton(
-                      onPressed: widget.more,
-                      child: Row(
-                        children: const [
-                          Text('More'),
-                          SizedBox(width: 4.0),
-                          Icon(
-                            Icons.arrow_right_alt,
-                          ),
-                        ],
+              Visibility(
+                visible: isHovered,
+                child: ListTile(
+                  title: Row(
+                    children: [
+                      const Spacer(),
+                      TextButton(
+                        onPressed: widget.more,
+                        child: Row(
+                          children: const [
+                            Text('More'),
+                            SizedBox(width: 4.0),
+                            Icon(
+                              Icons.arrow_right_alt,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

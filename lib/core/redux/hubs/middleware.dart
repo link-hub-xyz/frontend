@@ -19,6 +19,7 @@ void _reloadHubs(
   NextDispatcher next,
 ) async {
   next(action);
+  next(const ReloadingHubsAction());
   final client = GetIt.instance.get<ArtemisClient>();
   try {
     final response = await client.execute(MyHubsQuery());
