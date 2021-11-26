@@ -39,6 +39,7 @@ class _HubWidgetState extends State<HubWidget> {
                 dense: true,
                 leading: const Icon(Icons.device_hub),
                 title: Text(widget.hub.name),
+                subtitle: Text('12 items'),
                 trailing: Visibility(
                   visible: isHovered,
                   child: IconButton(
