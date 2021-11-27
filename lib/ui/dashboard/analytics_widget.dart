@@ -7,11 +7,11 @@ class DashboardAnalyticsWidget extends StatelessWidget {
   Widget build(BuildContext context) => Card(
           child: Column(
         children: [
-          Text('total analytics will be here...'),
+          const Text('total analytics will be here...'),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: const [
                 Expanded(child: Center(child: Text('Per day'))),
                 VerticalDivider(),
                 Expanded(child: Center(child: Text('total'))),

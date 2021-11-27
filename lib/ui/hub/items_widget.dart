@@ -25,7 +25,12 @@ class ItemsListWidget extends StatelessWidget {
         children: [
           PaginatedDataTable(
             header: const Text('Items'),
-            actions: [IconButton(onPressed: () => {}, icon: Icon(Icons.add))],
+            actions: [
+              IconButton(
+                onPressed: () => {},
+                icon: const Icon(Icons.add),
+              )
+            ],
             rowsPerPage: 4,
             columns: const [
               DataColumn(label: Text('Name')),
@@ -65,9 +70,9 @@ class _DataSource extends DataTableSource {
       },
       cells: [
         DataCell(Text(item.id)),
-        DataCell(Text('Nov 23')),
+        const DataCell(Text('Nov 23')),
         DataCell(Text(item.url)),
-        DataCell(Text('0')),
+        const DataCell(Text('0')),
       ],
     );
   }

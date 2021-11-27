@@ -1,0 +1,14 @@
+query CreateHub($name: String!) { 
+  users {
+    me {
+      createHub(name: $name) {
+        id
+        name
+        items {
+          id
+          url
+        }
+      }
+    }
+  }
+}

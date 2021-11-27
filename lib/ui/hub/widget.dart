@@ -3,7 +3,6 @@ import 'package:linkhub/core/model/data_status.dart';
 import 'package:linkhub/core/model/hub.dart';
 
 import 'items_connector.dart';
-import 'items_widget.dart';
 
 class HubProps {
   final Hub? hub;

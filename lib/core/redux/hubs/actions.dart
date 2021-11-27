@@ -29,3 +29,30 @@ class DidReloadHubsAction {
 class DidFailReloadHubsAction extends FailureAction {
   const DidFailReloadHubsAction({required reason}) : super(reason);
 }
+
+@immutable
+class CreateHubAction {
+  final String name;
+  const CreateHubAction({required this.name});
+}
+
+@immutable
+class CreatingHubAction {
+  const CreatingHubAction();
+}
+
+@immutable
+class DidCreateHubAction {
+  final Hub hub;
+  final Map<String, Item> items;
+
+  const DidCreateHubAction({
+    required this.hub,
+    required this.items,
+  });
+}
+
+@immutable
+class DidFailCreateHubAction extends FailureAction {
+  const DidFailCreateHubAction({required reason}) : super(reason);
+}

@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:linkhub/misc/app_router.dart';
 import 'package:linkhub/misc/router_assembler.dart';
 import 'package:redux/redux.dart';
 
 import 'actions.dart';
+import 'hubs/actions.dart';
 
 class NavigationMiddleware extends MiddlewareClass {
   @override
@@ -20,7 +23,10 @@ class NavigationMiddleware extends MiddlewareClass {
               width: 256,
             ),
           );
+          break;
 
+        case DidCreateHubAction:
+          context.router.replace(const DashboardConnectorRoute());
           break;
       }
     }

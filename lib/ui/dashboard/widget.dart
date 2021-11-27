@@ -27,7 +27,7 @@ class DashboardWidget extends StatefulWidget {
 }
 
 class _DashboardWidgetState extends State<DashboardWidget> {
-  static const double EMPTY_SPACE = 10.0;
+  static const double emptySpace = 10.0;
   late ScrollController _controller;
   bool isScrolledToTop = true;
 
@@ -50,7 +50,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
       }
     } else {
       //call setState only when values are about to change
-      if (_controller.offset > EMPTY_SPACE && isScrolledToTop) {
+      if (_controller.offset > emptySpace && isScrolledToTop) {
         setState(() {
           //not the top
           isScrolledToTop = false;
@@ -100,11 +100,11 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                           style: Theme.of(context).textTheme.headline5,
                           textAlign: TextAlign.left,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         TextButton.icon(
                           onPressed: widget.props.createHub,
-                          icon: Icon(Icons.add),
-                          label: Text('Create hub'),
+                          icon: const Icon(Icons.add),
+                          label: const Text('Create hub'),
                         ),
                       ],
                     ),

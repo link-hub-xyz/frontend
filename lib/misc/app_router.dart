@@ -89,7 +89,7 @@ Widget popupTransition(
           ),
           Center(
             child: Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 256,
                 minWidth: double.infinity,
                 maxHeight: 400,
@@ -104,5 +104,3 @@ Widget popupTransition(
         ],
       ),
     );
-
-// FractionallySizedBox

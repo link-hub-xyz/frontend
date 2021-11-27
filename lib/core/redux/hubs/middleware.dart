@@ -12,6 +12,7 @@ import 'package:gql_link/gql_link.dart' as gql;
 
 final List<Middleware<AppState>> hubsMiddlewares = [
   TypedMiddleware<AppState, ReloadHubsAction>(_reloadHubs),
+  TypedMiddleware<AppState, CreateHubAction>(_createHub),
 ];
 
 void _reloadHubs(
@@ -62,5 +63,60 @@ void _reloadHubs(
     }
   } catch (_) {
     next(const DidFailReloadHubsAction(reason: 'Smth went wrong.'));
+  }
+}
+
+void _createHub(
+  Store<AppState> store,
+  CreateHubAction action,
+  NextDispatcher next,
+) async {
+  next(action);
+  next(const CreatingHubAction());
+  final client = GetIt.instance.get<ArtemisClient>();
+
+  try {
+    final response = await client.execute(CreateHubQuery(
+      variables: CreateHubArguments(
+        name: action.name,
+      ),
+    ));
+    if (response.errors?.isNotEmpty == true) {
+      next(
+        DidFailCreateHubAction(
+          reason: response.errors
+              ?.fold('', (String string, error) => string + error.message),
+        ),
+      );
+    }
+
+    final hub = response.data?.users?.me?.createHub;
+    if (hub != null) {
+      next(
+        DidCreateHubAction(
+          hub: Hub(
+            id: hub.id,
+            name: hub.name,
+            items: hub.items.map((raw) => raw.id),
+          ),
+          items: hub.items
+              .map((raw) => Item(
+                    id: raw.id,
+                    url: raw.url,
+                  ))
+              .fold({}, (map, item) => map..[item.id] = item),
+        ),
+      );
+    }
+  } on gql.ServerException catch (e) {
+    switch (e.originalException.runtimeType) {
+      case SocketException:
+        next(const DidFailCreateHubAction(reason: 'No internet connection.'));
+        return;
+      default:
+        next(const DidFailCreateHubAction(reason: 'Smth went wrong.'));
+    }
+  } catch (_) {
+    next(const DidFailCreateHubAction(reason: 'Smth went wrong.'));
   }
 }

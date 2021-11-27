@@ -63,8 +63,8 @@ class _HubWidgetState extends State<HubWidget> {
                 title: const Text('ID'),
                 subtitle: Text(widget.hub.id),
               ),
-              ListTile(
-                title: const Text('Analytics graph?...'),
+              const ListTile(
+                title: Text('Analytics graph?...'),
               ),
               const Spacer(),
               Visibility(

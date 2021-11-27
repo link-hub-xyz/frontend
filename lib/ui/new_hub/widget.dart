@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 @immutable
 class NewHubProps extends Equatable {
   final VoidCallback back;
-  final void Function(String) create;
+  final void Function(String)? create;
 
   const NewHubProps({
     required this.back,
@@ -12,7 +12,10 @@ class NewHubProps extends Equatable {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        back,
+        create,
+      ];
 }
 
 class NewHubWidget extends StatefulWidget {
@@ -102,16 +105,23 @@ class _NewHubWidgetState extends State<NewHubWidget> {
             ),
             actionsPadding: const EdgeInsets.all(16.0),
             actions: [
-              TextButton(
-                onPressed: widget.props.back,
-                child: const Text('Cancel'),
+              Visibility(
+                visible: widget.props.create != null,
+                child: TextButton(
+                  onPressed: widget.props.back,
+                  child: const Text('Cancel'),
+                ),
               ),
-              ElevatedButton(
-                onPressed: _titleController.text.isNotEmpty
-                    ? () => widget.props.create('')
-                    : null,
-                child: const Text('Create'),
-              )
+              Visibility(
+                visible: widget.props.create != null,
+                child: ElevatedButton(
+                  onPressed: _titleController.text.isNotEmpty
+                      ? () => widget.props.create!(_titleController.text)
+                      : null,
+                  child: const Text('Create'),
+                ),
+                replacement: CircularProgressIndicator(strokeWidth: 2),
+              ),
             ]),
       );
 }
@@ -123,9 +133,9 @@ class _StepsWidget extends StatelessWidget {
           dividerColor: Colors.white,
         ),
         child: DefaultTextStyle(
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
           child: Row(
-            children: [
+            children: const [
               Text('1'),
               SizedBox(width: 4),
               Text('Enter title'),
@@ -148,6 +158,7 @@ class _StepsWidget extends StatelessWidget {
       );
 }
 
+@immutable
 class _Circle extends StatelessWidget {
   Widget child;
   Color? color;
