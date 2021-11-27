@@ -70,14 +70,15 @@ class LinkHubApp extends StatelessWidget {
         distinct: true,
         converter: (store) => store.state.auth.isAuthorised,
         builder: (context, isAuthorized) => MaterialApp.router(
-          routerDelegate: AutoRouterDelegate.declarative(
-            GetIt.instance.get<AppRouter>(),
-            routes: (_) => [
-              isAuthorized
-                  ? const MainWidgetRoute()
-                  : const SignConnectorRoute()
-            ],
-          ),
+          routerDelegate: GetIt.instance.get<AppRouter>().delegate(),
+          // AutoRouterDelegate.declarative(
+          //   GetIt.instance.get<AppRouter>(),
+          //   routes: (context) => [
+          //     isAuthorized
+          //         ? const MainWidgetRoute()
+          //         : const SignConnectorRoute()
+          //   ],
+          // ),
           routeInformationParser:
               GetIt.instance.get<AppRouter>().defaultRouteParser(),
           title: 'LinkHub',

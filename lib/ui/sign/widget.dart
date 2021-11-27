@@ -7,12 +7,13 @@ import 'package:linkhub/ui/misc/web_container.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SignProps extends Equatable {
+  final bool? isAuthorised;
   final VoidCallback google;
 
-  const SignProps({required this.google});
+  const SignProps({required this.isAuthorised, required this.google});
 
   @override
-  List<Object?> get props => [google];
+  List<Object?> get props => [isAuthorised, google];
 }
 
 class SignWidget extends StatelessWidget {

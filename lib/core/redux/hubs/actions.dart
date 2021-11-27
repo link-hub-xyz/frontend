@@ -30,6 +30,8 @@ class DidFailReloadHubsAction extends FailureAction {
   const DidFailReloadHubsAction({required reason}) : super(reason);
 }
 
+/////////
+
 @immutable
 class CreateHubAction {
   final String name;
@@ -55,4 +57,33 @@ class DidCreateHubAction {
 @immutable
 class DidFailCreateHubAction extends FailureAction {
   const DidFailCreateHubAction({required reason}) : super(reason);
+}
+
+/////////
+
+@immutable
+class DownloadHubAction {
+  final String id;
+  const DownloadHubAction({required this.id});
+}
+
+@immutable
+class DownloadingHubAction {
+  const DownloadingHubAction();
+}
+
+@immutable
+class DidDownloadHubAction {
+  final Hub hub;
+  final Map<String, Item> items;
+
+  const DidDownloadHubAction({
+    required this.hub,
+    required this.items,
+  });
+}
+
+@immutable
+class DidFailDownloadingHubAction extends FailureAction {
+  const DidFailDownloadingHubAction({required reason}) : super(reason);
 }

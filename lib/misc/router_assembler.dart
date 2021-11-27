@@ -9,7 +9,10 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class RouterAssembler implements Assebmbler {
   @override
   Future assemble(GetIt locator) {
-    locator.registerSingleton<AppRouter>(AppRouter(navigatorKey));
+    locator.registerSingleton<AppRouter>(AppRouter(
+      navigatorKey: navigatorKey,
+      authGuard: AuthGuard(),
+    ));
     return Future.value();
   }
 }

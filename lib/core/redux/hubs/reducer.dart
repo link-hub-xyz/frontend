@@ -12,6 +12,10 @@ final hubsReducer = combineReducers<HubsState>([
   TypedReducer<HubsState, CreatingHubAction>(_creatingReducer),
   TypedReducer<HubsState, DidCreateHubAction>(_didCreateReducer),
   TypedReducer<HubsState, DidFailCreateHubAction>(_didFailedCreatingReducer),
+  TypedReducer<HubsState, DownloadHubAction>(_downloadingReducer),
+  TypedReducer<HubsState, DidDownloadHubAction>(_didDownloadReducer),
+  TypedReducer<HubsState, DidFailDownloadingHubAction>(
+      _didFailedDownloadingReducer),
   TypedReducer<HubsState, DidSignOutAction>(_signOutReducer),
 ]);
 
@@ -61,6 +65,30 @@ HubsState _didFailedCreatingReducer(
   DidFailCreateHubAction action,
 ) =>
     state.copyWith(creationStatus: DataStatus.error);
+
+HubsState _downloadingReducer(
+  HubsState state,
+  DownloadHubAction action,
+) =>
+    state.copyWith(downloadStatus: DataStatus.inProgress);
+
+HubsState _didDownloadReducer(
+  HubsState state,
+  DidDownloadHubAction action,
+) =>
+    state.copyWith(
+        downloadStatus: DataStatus.success,
+        order: [action.hub.id] + state.order,
+        map: Map.from(state.map)
+          ..addAll(
+            {action.hub.id: action.hub},
+          ));
+
+HubsState _didFailedDownloadingReducer(
+  HubsState state,
+  DidFailDownloadingHubAction action,
+) =>
+    state.copyWith(downloadStatus: DataStatus.error);
 
 HubsState _signOutReducer(HubsState state, DidSignOutAction action) =>
     HubsState.initial();

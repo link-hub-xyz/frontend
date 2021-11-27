@@ -1,0 +1,12 @@
+query DownloadHub($id: String!) { 
+  hub(id: $id) {
+    id
+    name
+    url
+    items {
+      id
+      url
+      origin
+    }
+  }
+}

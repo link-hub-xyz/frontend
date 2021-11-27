@@ -13,6 +13,7 @@ import 'package:gql_link/gql_link.dart' as gql;
 final List<Middleware<AppState>> hubsMiddlewares = [
   TypedMiddleware<AppState, ReloadHubsAction>(_reloadHubs),
   TypedMiddleware<AppState, CreateHubAction>(_createHub),
+  TypedMiddleware<AppState, DownloadHubAction>(_downloadHub),
 ];
 
 void _reloadHubs(
@@ -122,5 +123,69 @@ void _createHub(
     }
   } catch (_) {
     next(const DidFailCreateHubAction(reason: 'Smth went wrong.'));
+  }
+}
+
+void _downloadHub(
+  Store<AppState> store,
+  DownloadHubAction action,
+  NextDispatcher next,
+) async {
+  next(action);
+  next(const DownloadingHubAction());
+  final client = GetIt.instance.get<ArtemisClient>();
+
+  try {
+    final response = await client.execute(DownloadHubQuery(
+      variables: DownloadHubArguments(
+        id: action.id,
+      ),
+    ));
+    if (response.errors?.isNotEmpty == true) {
+      next(
+        DidFailDownloadingHubAction(
+          reason: response.errors
+              ?.fold('', (String string, error) => string + error.message),
+        ),
+      );
+    }
+
+    final hub = response.data?.hub;
+    if (hub == null) {
+      next(
+        DidFailDownloadingHubAction(
+            reason:
+                'Can not download hub with id: ${action.id}.\nPlease try again.'),
+      );
+    } else {
+      next(
+        DidDownloadHubAction(
+          hub: Hub(
+            id: hub.id,
+            name: hub.name,
+            url: hub.url,
+            items: hub.items.map((raw) => raw.id),
+          ),
+          items: hub.items
+              .map((raw) => Item(
+                    id: raw.id,
+                    url: raw.url,
+                    origin: raw.origin,
+                  ))
+              .fold({}, (map, item) => map..[item.id] = item),
+        ),
+      );
+    }
+  } on gql.ServerException catch (e) {
+    switch (e.originalException.runtimeType) {
+      case SocketException:
+        next(const DidFailDownloadingHubAction(
+            reason: 'No internet connection.'));
+        return;
+      default:
+        next(const DidFailDownloadingHubAction(reason: 'Smth went wrong.'));
+    }
+  } catch (_) {
+    next(const DidFailDownloadingHubAction(reason: 'Smth went wrong.'));
   }
 }

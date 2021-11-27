@@ -9,12 +9,14 @@ part 'state.g.dart';
 class HubsState extends Equatable {
   final DataStatus status;
   final DataStatus creationStatus;
+  final DataStatus downloadStatus;
   final List<String> order;
   final Map<String, Hub> map;
 
   const HubsState({
     required this.status,
     required this.creationStatus,
+    required this.downloadStatus,
     required this.order,
     required this.map,
   });
@@ -22,6 +24,7 @@ class HubsState extends Equatable {
   factory HubsState.initial() => const HubsState(
         status: DataStatus.initial,
         creationStatus: DataStatus.initial,
+        downloadStatus: DataStatus.initial,
         order: [],
         map: {},
       );
@@ -30,6 +33,7 @@ class HubsState extends Equatable {
   List<Object?> get props => [
         status,
         creationStatus,
+        downloadStatus,
         order,
         map,
       ];

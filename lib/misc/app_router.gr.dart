@@ -11,14 +11,33 @@
 part of 'app_router.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+  _$AppRouter(
+      {GlobalKey<NavigatorState>? navigatorKey, required this.authGuard})
+      : super(navigatorKey);
+
+  final AuthGuard authGuard;
 
   @override
   final Map<String, PageFactory> pagesMap = {
     SignConnectorRoute.name: (routeData) {
+      final args = routeData.argsAs<SignConnectorRouteArgs>(
+          orElse: () => const SignConnectorRouteArgs());
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const SignConnector(),
+          child: SignConnector(key: args.key),
+          transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    LinkHubWidgetRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<LinkHubWidgetRouteArgs>(
+          orElse: () =>
+              LinkHubWidgetRouteArgs(id: pathParams.getString('hub')));
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: LinkHubWidget(key: args.key, id: args.id),
           transitionsBuilder: fadeTransition,
           durationInMilliseconds: 400,
           opaque: true,
@@ -88,7 +107,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig('/#redirect',
             path: '/', redirectTo: '/sign', fullMatch: true),
         RouteConfig(SignConnectorRoute.name, path: '/sign'),
-        RouteConfig(MainWidgetRoute.name, path: '/main', children: [
+        RouteConfig(LinkHubWidgetRoute.name, path: '/hubs/:hub'),
+        RouteConfig(MainWidgetRoute.name, path: '/main', guards: [
+          authGuard
+        ], children: [
           RouteConfig('#redirect',
               path: '',
               parent: MainWidgetRoute.name,
@@ -109,10 +131,46 @@ class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for [SignConnector]
-class SignConnectorRoute extends PageRouteInfo<void> {
-  const SignConnectorRoute() : super(name, path: '/sign');
+class SignConnectorRoute extends PageRouteInfo<SignConnectorRouteArgs> {
+  SignConnectorRoute({Key? key})
+      : super(name, path: '/sign', args: SignConnectorRouteArgs(key: key));
 
   static const String name = 'SignConnectorRoute';
+}
+
+class SignConnectorRouteArgs {
+  const SignConnectorRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'SignConnectorRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for [LinkHubWidget]
+class LinkHubWidgetRoute extends PageRouteInfo<LinkHubWidgetRouteArgs> {
+  LinkHubWidgetRoute({Key? key, required String id})
+      : super(name,
+            path: '/hubs/:hub',
+            args: LinkHubWidgetRouteArgs(key: key, id: id),
+            rawPathParams: {'hub': id});
+
+  static const String name = 'LinkHubWidgetRoute';
+}
+
+class LinkHubWidgetRouteArgs {
+  const LinkHubWidgetRouteArgs({this.key, required this.id});
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'LinkHubWidgetRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for [MainWidget]
