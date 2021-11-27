@@ -4,9 +4,11 @@ query MyHubs() {
       hubs {
         id
         name
+        url
         items {
           id
           url
+          origin
         }
       }
     }

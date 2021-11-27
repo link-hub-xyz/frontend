@@ -4,9 +4,11 @@ query CreateHub($name: String!) {
       createHub(name: $name) {
         id
         name
+        url
         items {
           id
           url
+          origin
         }
       }
     }

@@ -19,6 +19,7 @@ type Mutation {
 type Hub {
   id: String!
   name: String!
+  url: URL!
   items: [Item!]!
   createItem(url: URL!): Item!
 }
@@ -28,6 +29,7 @@ scalar URL
 type Item {
   id: String!
   url: URL!
+  origin: URL!
 }
 
 type Users {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/redux/state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'items_widget.dart';
 
@@ -17,6 +18,16 @@ class ItemsConnector extends StatelessWidget {
       StoreConnector<AppState, ItemsListProps>(
         distinct: true,
         converter: (store) => ItemsListProps(
+          onPressed: (id) {
+            final url = store.state.items.map[id]?.url;
+            // TODO: add requester id for analytics.
+            if (url != null) {
+              launch(
+                url,
+                forceSafariVC: false,
+              );
+            }
+          },
           items: store.state.hubs.map[id]?.items
                   .map((id) => store.state.items.map[id])
                   .whereType() ??

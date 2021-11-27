@@ -37,6 +37,7 @@ void _reloadHubs(
                 .map((raw) => Hub(
                     id: raw.id,
                     name: raw.name,
+                    url: raw.url,
                     items: raw.items.map((raw) => raw.id)))
                 .toList(),
             items: hubs
@@ -45,6 +46,7 @@ void _reloadHubs(
                 .map((raw) => Item(
                       id: raw.id,
                       url: raw.url,
+                      origin: raw.origin,
                     ))
                 .fold({}, (map, item) => map..[item.id] = item)),
       );
@@ -97,12 +99,14 @@ void _createHub(
           hub: Hub(
             id: hub.id,
             name: hub.name,
+            url: hub.url,
             items: hub.items.map((raw) => raw.id),
           ),
           items: hub.items
               .map((raw) => Item(
                     id: raw.id,
                     url: raw.url,
+                    origin: raw.origin,
                   ))
               .fold({}, (map, item) => map..[item.id] = item),
         ),
