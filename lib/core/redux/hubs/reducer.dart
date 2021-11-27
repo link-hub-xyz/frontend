@@ -53,12 +53,10 @@ HubsState _didCreateReducer(
   DidCreateHubAction action,
 ) =>
     state.copyWith(
-        creationStatus: DataStatus.success,
-        order: [action.hub.id] + state.order,
-        map: Map.from(state.map)
-          ..addAll(
-            {action.hub.id: action.hub},
-          ));
+      creationStatus: DataStatus.success,
+      order: [action.hub.id] + state.order,
+      map: Map.from(state.map)..addAll({action.hub.id: action.hub}),
+    );
 
 HubsState _didFailedCreatingReducer(
   HubsState state,
@@ -77,12 +75,10 @@ HubsState _didDownloadReducer(
   DidDownloadHubAction action,
 ) =>
     state.copyWith(
-        downloadStatus: DataStatus.success,
-        order: [action.hub.id] + state.order,
-        map: Map.from(state.map)
-          ..addAll(
-            {action.hub.id: action.hub},
-          ));
+      downloadStatus: DataStatus.success,
+      order: state.order,
+      map: Map.from(state.map)..addAll({action.hub.id: action.hub}),
+    );
 
 HubsState _didFailedDownloadingReducer(
   HubsState state,
