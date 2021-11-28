@@ -6,11 +6,7 @@ abstract class FailureAction {
 }
 
 @immutable
-class AlertAction implements FailureAction {
-  @override
+class AlertAction {
   final String? reason;
-
-  const AlertAction({
-    required this.reason,
-  });
+  const AlertAction({required this.reason});
 }

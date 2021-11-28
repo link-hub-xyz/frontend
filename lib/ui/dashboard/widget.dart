@@ -8,13 +8,17 @@ class DashboardProps {
   VoidCallback? reload;
   List<Hub> hubs;
   void Function(String) more;
-  VoidCallback createHub;
+  void Function(String) share;
+  void Function(String) delete;
+  VoidCallback create;
 
   DashboardProps({
     required this.reload,
     required this.hubs,
     required this.more,
-    required this.createHub,
+    required this.share,
+    required this.delete,
+    required this.create,
   });
 }
 
@@ -41,20 +45,12 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   _scrollListener() {
     if (_controller.offset <= _controller.position.minScrollExtent &&
         !_controller.position.outOfRange) {
-      //call setState only when values are about to change
       if (!isScrolledToTop) {
-        setState(() {
-          //reach the top
-          isScrolledToTop = true;
-        });
+        setState(() => isScrolledToTop = true);
       }
     } else {
-      //call setState only when values are about to change
       if (_controller.offset > emptySpace && isScrolledToTop) {
-        setState(() {
-          //not the top
-          isScrolledToTop = false;
-        });
+        setState(() => isScrolledToTop = false);
       }
     }
   }
@@ -102,7 +98,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                         ),
                         const Spacer(),
                         TextButton.icon(
-                          onPressed: widget.props.createHub,
+                          onPressed: widget.props.create,
                           icon: const Icon(Icons.add),
                           label: const Text('Create hub'),
                         ),
@@ -128,6 +124,10 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       hub: widget.props.hubs[index],
                       more: () =>
                           widget.props.more(widget.props.hubs[index].id),
+                      share: () =>
+                          widget.props.share(widget.props.hubs[index].id),
+                      delete: () =>
+                          widget.props.delete(widget.props.hubs[index].id),
                     ),
                   ),
                 ],

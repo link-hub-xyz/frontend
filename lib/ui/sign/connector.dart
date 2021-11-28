@@ -7,6 +7,7 @@ import 'package:linkhub/misc/app_router.dart';
 
 import 'widget.dart';
 
+// ignore: must_be_immutable
 class SignConnector extends StatelessWidget {
   SignConnector({Key? key}) : super(key: key);
   bool _isPushed = false;
@@ -26,7 +27,6 @@ class SignConnector extends StatelessWidget {
 
            */
           if (current.isAuthorised == true && _isPushed == false) {
-            // context.router.replaceNamed('/main');
             context.router.replace(const MainWidgetRoute());
             _isPushed = true;
           }

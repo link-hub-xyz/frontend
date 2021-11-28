@@ -16,6 +16,7 @@ class NavigationMiddleware extends MiddlewareClass {
     final context = navigatorKey.currentContext;
     if (context != null) {
       switch (action.runtimeType) {
+        case FailureAction:
         case AlertAction:
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -28,10 +29,6 @@ class NavigationMiddleware extends MiddlewareClass {
 
         case DidCreateHubAction:
           context.router.replace(const DashboardConnectorRoute());
-          break;
-
-        case DidSignInAction:
-          // context.router.replace(const MainWidgetRoute());
           break;
 
         case SignOutAction:

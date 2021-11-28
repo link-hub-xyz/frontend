@@ -120,7 +120,7 @@ class _NewHubWidgetState extends State<NewHubWidget> {
                       : null,
                   child: const Text('Create'),
                 ),
-                replacement: CircularProgressIndicator(strokeWidth: 2),
+                replacement: const CircularProgressIndicator(strokeWidth: 2),
               ),
             ]),
       );
@@ -158,19 +158,19 @@ class _StepsWidget extends StatelessWidget {
       );
 }
 
-@immutable
-class _Circle extends StatelessWidget {
-  Widget child;
-  Color? color;
+// @immutable
+// class _Circle extends StatelessWidget {
+//   Widget child;
+//   Color? color;
 
-  _Circle({required this.child, this.color});
+//   _Circle({required this.child, this.color});
 
-  @override
-  Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 1,
-        child: Container(
-          color: color,
-          child: child,
-        ),
-      );
-}
+//   @override
+//   Widget build(BuildContext context) => AspectRatio(
+//         aspectRatio: 1,
+//         child: Container(
+//           color: color,
+//           child: child,
+//         ),
+//       );
+// }

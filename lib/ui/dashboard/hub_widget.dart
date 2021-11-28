@@ -4,16 +4,22 @@ import 'package:linkhub/core/model/hub.dart';
 class HubWidget extends StatefulWidget {
   final Hub hub;
   final VoidCallback more;
+  final VoidCallback share;
+  final VoidCallback delete;
 
   const HubWidget({
     Key? key,
     required this.hub,
     required this.more,
+    required this.share,
+    required this.delete,
   }) : super(key: key);
 
   @override
   State<HubWidget> createState() => _HubWidgetState();
 }
+
+enum _HubWidgetAction { share, delete }
 
 class _HubWidgetState extends State<HubWidget> {
   bool isHovered = false;
@@ -52,10 +58,41 @@ class _HubWidgetState extends State<HubWidget> {
                   }(),
                 ),
                 trailing: Visibility(
+                  maintainState: true,
                   visible: isHovered,
-                  child: IconButton(
-                    onPressed: () => {},
+                  child: PopupMenuButton(
+                    tooltip: 'Options',
                     icon: const Icon(Icons.more_vert),
+                    onSelected: (action) {
+                      switch (action) {
+                        case _HubWidgetAction.share:
+                          return widget.share();
+                        case _HubWidgetAction.delete:
+                          return widget.delete();
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Row(
+                          children: const [
+                            Text("Share"),
+                            Spacer(),
+                            Icon(Icons.share, size: 16),
+                          ],
+                        ),
+                        value: _HubWidgetAction.share,
+                      ),
+                      PopupMenuItem(
+                        child: Row(
+                          children: const [
+                            Text("Delete"),
+                            Spacer(),
+                            Icon(Icons.delete, size: 16),
+                          ],
+                        ),
+                        value: _HubWidgetAction.delete,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -79,9 +116,7 @@ class _HubWidgetState extends State<HubWidget> {
                           children: const [
                             Text('More'),
                             SizedBox(width: 4.0),
-                            Icon(
-                              Icons.arrow_right_alt,
-                            ),
+                            Icon(Icons.arrow_right_alt),
                           ],
                         ),
                       ),
