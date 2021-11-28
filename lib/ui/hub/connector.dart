@@ -20,11 +20,11 @@ class HubConnector extends StatelessWidget {
         distinct: true,
         onInit: (store) => {
           store.dispatch(DownloadHubAction(id: id)),
-          // FirebaseAnalytics().logViewItem(
-          //   itemId: id,
-          //   itemName: '',
-          //   itemCategory: 'hub',
-          // ),
+          FirebaseAnalytics().logViewItem(
+            itemId: id,
+            itemName: '',
+            itemCategory: 'hub',
+          ),
         },
         converter: (store) => HubProps(
           hub: store.state.hubs.map[id],

@@ -23,11 +23,11 @@ class ItemsConnector extends StatelessWidget {
             final url = store.state.items.map[id]?.url;
             // TODO: add requester id for analytics.
             if (url != null) {
-              // FirebaseAnalytics().logViewItem(
-              //   itemId: id,
-              //   itemName: url,
-              //   itemCategory: 'item',
-              // );
+              FirebaseAnalytics().logViewItem(
+                itemId: id,
+                itemName: url,
+                itemCategory: 'item',
+              );
               launch(
                 url,
                 forceSafariVC: false,
