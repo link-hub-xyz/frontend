@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/redux/hubs/actions.dart';
@@ -17,7 +18,14 @@ class HubConnector extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, HubProps>(
         distinct: true,
-        onInit: (store) => store.dispatch(DownloadHubAction(id: id)),
+        onInit: (store) => {
+          store.dispatch(DownloadHubAction(id: id)),
+          // FirebaseAnalytics().logViewItem(
+          //   itemId: id,
+          //   itemName: '',
+          //   itemCategory: 'hub',
+          // ),
+        },
         converter: (store) => HubProps(
           hub: store.state.hubs.map[id],
           status: store.state.hubs.downloadStatus,

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -31,7 +32,9 @@ class DashboardConnector extends StatelessWidget {
               .map((id) => store.state.hubs.map[id])
               .whereType<Hub>()
               .toList(),
-          more: (id) => context.router.push(HubConnectorRoute(id: id)),
+          more: (id) => {
+            context.router.push(HubConnectorRoute(id: id)),
+          },
           share: (id) async {
             final url = store.state.hubs.map[id]?.url;
             if (url != null) {
@@ -39,6 +42,11 @@ class DashboardConnector extends StatelessWidget {
               store.dispatch(const AlertAction(
                 reason: 'Link has been copied to your clipboard.',
               ));
+              await FirebaseAnalytics().logShare(
+                contentType: 'hub',
+                method: 'link',
+                itemId: id,
+              );
             } else {
               store.dispatch(const AlertAction(
                 reason: 'Unable tp copy link',

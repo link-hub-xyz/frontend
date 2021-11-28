@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,15 +72,13 @@ class LinkHubApp extends StatelessWidget {
         distinct: true,
         converter: (store) => store.state.auth.isAuthorised,
         builder: (context, isAuthorized) => MaterialApp.router(
-          routerDelegate: GetIt.instance.get<AppRouter>().delegate(),
-          // AutoRouterDelegate.declarative(
-          //   GetIt.instance.get<AppRouter>(),
-          //   routes: (context) => [
-          //     isAuthorized
-          //         ? const MainWidgetRoute()
-          //         : const SignConnectorRoute()
-          //   ],
-          // ),
+          routerDelegate: GetIt.instance.get<AppRouter>().delegate(
+                navigatorObservers: () => [
+                  FirebaseAnalyticsObserver(
+                    analytics: FirebaseAnalytics(),
+                  ),
+                ],
+              ),
           routeInformationParser:
               GetIt.instance.get<AppRouter>().defaultRouteParser(),
           title: 'LinkHub',

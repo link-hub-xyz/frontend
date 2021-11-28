@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/redux/state.dart';
@@ -22,6 +23,11 @@ class ItemsConnector extends StatelessWidget {
             final url = store.state.items.map[id]?.url;
             // TODO: add requester id for analytics.
             if (url != null) {
+              // FirebaseAnalytics().logViewItem(
+              //   itemId: id,
+              //   itemName: url,
+              //   itemCategory: 'item',
+              // );
               launch(
                 url,
                 forceSafariVC: false,
