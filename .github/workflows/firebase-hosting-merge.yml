@@ -10,9 +10,23 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: flutter build web
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+
+      - name: Setup Flutter environment stable.
+        uses: subosito/flutter-action@v1
+          with:
+            channel: 'stable'
+
+      - name: Fetch dependencies
+        run: flutter pub get
+
+      - name: Run codegen
+        run: flutter packages pub run build_runner build
+
+      - name: Build Web app
+        run: flutter build web
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LINKHUB_564EF }}'
