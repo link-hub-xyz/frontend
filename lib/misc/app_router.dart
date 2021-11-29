@@ -7,6 +7,7 @@ import 'package:linkhub/ui/hub/connector.dart';
 import 'package:linkhub/ui/hub/link_hub_widget.dart';
 import 'package:linkhub/ui/main/widget.dart';
 import 'package:linkhub/ui/new_hub/connector.dart';
+import 'package:linkhub/ui/new_item/connector.dart';
 import 'package:linkhub/ui/profile/widget.dart';
 import 'package:linkhub/ui/sign/connector.dart';
 
@@ -44,8 +45,8 @@ part 'app_router.gr.dart';
           durationInMilliseconds: 400,
         ),
         CustomRoute(
-          opaque: false,
           path: 'dashboard/hubs/new',
+          opaque: false,
           page: NewHubConnector,
           transitionsBuilder: popupTransition,
           durationInMilliseconds: 400,
@@ -54,6 +55,13 @@ part 'app_router.gr.dart';
           path: 'dashboard/hubs/:hub',
           page: HubConnector,
           transitionsBuilder: fadeTransition,
+          durationInMilliseconds: 400,
+        ),
+        CustomRoute(
+          path: 'dashboard/hubs/:hub/new-item',
+          opaque: false,
+          page: NewItemConnector,
+          transitionsBuilder: popupTransition,
           durationInMilliseconds: 400,
         ),
         CustomRoute(

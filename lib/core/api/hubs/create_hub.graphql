@@ -5,6 +5,7 @@ query CreateHub($name: String!) {
         id
         name
         url
+        creator
         items {
           id
           url

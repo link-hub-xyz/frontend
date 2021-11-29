@@ -7,6 +7,7 @@ import 'package:redux/redux.dart';
 import 'actions.dart';
 import 'auth/actions.dart';
 import 'hubs/actions.dart';
+import 'items/actions.dart';
 
 class NavigationMiddleware extends MiddlewareClass {
   @override
@@ -29,6 +30,10 @@ class NavigationMiddleware extends MiddlewareClass {
 
         case DidCreateHubAction:
           context.router.replace(const DashboardConnectorRoute());
+          break;
+
+        case DidCreateItemAction:
+          context.router.replace(HubConnectorRoute(id: action.id));
           break;
 
         case SignOutAction:

@@ -37,6 +37,7 @@ void _reloadHubs(
             hubs: hubs
                 .map((raw) => Hub(
                     id: raw.id,
+                    creator: raw.creator,
                     name: raw.name,
                     url: raw.url,
                     items: raw.items.map((raw) => raw.id)))
@@ -99,6 +100,7 @@ void _createHub(
         DidCreateHubAction(
           hub: Hub(
             id: hub.id,
+            creator: hub.creator,
             name: hub.name,
             url: hub.url,
             items: hub.items.map((raw) => raw.id),
@@ -162,6 +164,7 @@ void _downloadHub(
         DidDownloadHubAction(
           hub: Hub(
             id: hub.id,
+            creator: hub.creator,
             name: hub.name,
             url: hub.url,
             items: hub.items.map((raw) => raw.id),

@@ -1,5 +1,7 @@
 import 'package:linkhub/core/model/data_status.dart';
+import 'package:linkhub/core/model/hub.dart';
 import 'package:linkhub/core/redux/auth/actions.dart';
+import 'package:linkhub/core/redux/items/actions.dart';
 import 'package:redux/redux.dart';
 
 import 'actions.dart';
@@ -16,6 +18,7 @@ final hubsReducer = combineReducers<HubsState>([
   TypedReducer<HubsState, DidDownloadHubAction>(_didDownloadReducer),
   TypedReducer<HubsState, DidFailDownloadingHubAction>(
       _didFailedDownloadingReducer),
+  TypedReducer<HubsState, DidCreateItemAction>(_didCreateItemReducer),
   TypedReducer<HubsState, DidSignOutAction>(_signOutReducer),
 ]);
 
@@ -85,6 +88,18 @@ HubsState _didFailedDownloadingReducer(
   DidFailDownloadingHubAction action,
 ) =>
     state.copyWith(downloadStatus: DataStatus.error);
+
+HubsState _didCreateItemReducer(
+  HubsState state,
+  DidCreateItemAction action,
+) {
+  final hubs = Map<String, Hub>.from(state.map)
+    ..update(
+      action.id,
+      (hub) => hub.copyWith(items: hub.items.toList() + [action.item.id]),
+    );
+  return state.copyWith(map: hubs);
+}
 
 HubsState _signOutReducer(HubsState state, DidSignOutAction action) =>
     HubsState.initial();

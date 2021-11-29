@@ -14,7 +14,7 @@ class FirebaseService implements Service<AppState> {
   Future<void> bootstrup(Store<AppState> store) async {
     await Firebase.initializeApp();
 
-    _bootstrupAnalytics();
+    await _bootstrupAnalytics();
 
     _bootstrupAuth(FirebaseAuth.instance, store);
     // _setupCrashlytics();

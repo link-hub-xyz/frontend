@@ -5,6 +5,7 @@ query MyHubs() {
         id
         name
         url
+        creator
         items {
           id
           url

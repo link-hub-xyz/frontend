@@ -5,9 +5,11 @@ import 'package:linkhub/core/model/item.dart';
 
 class ItemsListProps extends Equatable {
   final Iterable<Item> items;
+  final VoidCallback? create;
   final void Function(String id) onPressed;
 
   const ItemsListProps({
+    required this.create,
     required this.items,
     required this.onPressed,
   });
@@ -31,19 +33,21 @@ class ItemsListWidget extends StatelessWidget {
           PaginatedDataTable(
             header: const Text('Items'),
             actions: [
-              IconButton(
-                onPressed: () => {},
-                icon: const Icon(Icons.add),
-              )
+              if (props.create != null)
+                IconButton(
+                  onPressed: props.create,
+                  icon: const Icon(Icons.add),
+                )
             ],
             rowsPerPage: 4,
-            columns: const [
-              DataColumn(label: Text('Origin')),
-              DataColumn(label: Text('Created')),
-              DataColumn(label: Text('Clicks')),
+            columns: [
+              const DataColumn(label: Text('Origin')),
+              const DataColumn(label: Text('Created')),
+              if (props.create != null) const DataColumn(label: Text('Clicks')),
             ],
             source: _DataSource(
               context: context,
+              isOwnHub: props.create != null,
               items: props.items,
               onPressed: props.onPressed,
             ),
@@ -56,11 +60,13 @@ class _DataSource extends DataTableSource {
   final BuildContext context;
   final Set<int> _selectedindexes = Set.identity();
   final Iterable<Item> items;
+  final bool isOwnHub;
   final void Function(String id) onPressed;
 
   _DataSource({
     required this.context,
     required this.items,
+    required this.isOwnHub,
     required this.onPressed,
   });
 
@@ -84,7 +90,7 @@ class _DataSource extends DataTableSource {
           onTap: () => onPressed(item.id),
         ),
         const DataCell(Text('Nov 23')),
-        const DataCell(Text('0')),
+        if (isOwnHub) const DataCell(Text('0')),
       ],
     );
   }

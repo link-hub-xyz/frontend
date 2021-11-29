@@ -1,0 +1,9 @@
+query CreateItem($id: String! $url: URL!) { 
+    hub(id: $id) {
+        createItem(url: $url) {
+            id
+            url
+            origin
+        }
+    }
+}

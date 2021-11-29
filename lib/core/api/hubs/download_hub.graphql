@@ -3,6 +3,7 @@ query DownloadHub($id: String!) {
     id
     name
     url
+    creator
     items {
       id
       url

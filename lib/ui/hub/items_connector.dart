@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/redux/state.dart';
+import 'package:linkhub/misc/app_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'items_widget.dart';
@@ -19,6 +21,9 @@ class ItemsConnector extends StatelessWidget {
       StoreConnector<AppState, ItemsListProps>(
         distinct: true,
         converter: (store) => ItemsListProps(
+          create: store.state.auth.id == store.state.hubs.map[id]?.creator
+              ? () => context.router.push(NewItemConnectorRoute(id: id))
+              : null,
           onPressed: (id) {
             final url = store.state.items.map[id]?.url;
             // TODO: add requester id for analytics.
