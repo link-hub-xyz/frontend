@@ -22,7 +22,7 @@ void _createItem(
   final client = GetIt.instance.get<ArtemisClient>();
 
   try {
-    final response = await client.execute(CreateItemQuery(
+    final response = await client.execute(CreateItemMutation(
       variables: CreateItemArguments(
         id: action.hubId,
         url: action.url,
@@ -37,7 +37,7 @@ void _createItem(
       );
     }
 
-    final item = response.data?.hub?.createItem;
+    final item = response.data?.createItem;
     if (item != null) {
       next(
         DidCreateItemAction(

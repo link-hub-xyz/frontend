@@ -1,20 +1,14 @@
-directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION
-
-enum Role {
-  OWNER
-  ADMIN
-  USER
-}
-
 type Query {
-  status: Boolean
   hub(id: String): Hub
   users: Users
 }
 
 type Mutation {
-  status: Boolean
+  createHub(name: String!): Hub!
+  createItem(id: String!, url: URL!): Item!
 }
+
+scalar URL
 
 type Hub {
   id: String!
@@ -22,10 +16,7 @@ type Hub {
   name: String!
   url: URL!
   items: [Item!]!
-  createItem(url: URL!): Item!
 }
-
-scalar URL
 
 type Item {
   id: String!
@@ -42,5 +33,4 @@ type User {
   id: String!
   name: String!
   hubs: [Hub!]!
-  createHub(name: String): Hub!
 }

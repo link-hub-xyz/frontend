@@ -80,7 +80,7 @@ void _createHub(
   final client = GetIt.instance.get<ArtemisClient>();
 
   try {
-    final response = await client.execute(CreateHubQuery(
+    final response = await client.execute(CreateHubMutation(
       variables: CreateHubArguments(
         name: action.name,
       ),
@@ -94,7 +94,7 @@ void _createHub(
       );
     }
 
-    final hub = response.data?.users?.me?.createHub;
+    final hub = response.data?.createHub;
     if (hub != null) {
       next(
         DidCreateHubAction(

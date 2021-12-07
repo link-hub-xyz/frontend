@@ -1,17 +1,13 @@
-query CreateHub($name: String!) { 
-  users {
-    me {
-      createHub(name: $name) {
-        id
-        name
-        url
-        creator
-        items {
-          id
-          url
-          origin
-        }
-      }
+mutation CreateHub($name: String!) { 
+  createHub(name: $name) {
+    id
+    name
+    url
+    creator
+    items {
+      id
+      url
+      origin
     }
   }
 }

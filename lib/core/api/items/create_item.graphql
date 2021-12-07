@@ -1,9 +1,7 @@
-query CreateItem($id: String! $url: URL!) { 
-    hub(id: $id) {
-        createItem(url: $url) {
-            id
-            url
-            origin
-        }
+mutation CreateItem($id: String! $url: URL!) { 
+    createItem(id: $id, url: $url) {
+        id
+        url
+        origin
     }
 }
