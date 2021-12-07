@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/redux/state.dart';
@@ -24,17 +25,20 @@ class ItemsConnector extends StatelessWidget {
           create: store.state.auth.id == store.state.hubs.map[id]?.creator
               ? () => context.router.push(NewItemConnectorRoute(id: id))
               : null,
-          onPressed: (id) {
+          onPressed: (id) async {
             final url = store.state.items.map[id]?.url;
-            // TODO: add requester id for analytics.
             if (url != null) {
               FirebaseAnalytics().logViewItem(
                 itemId: id,
                 itemName: url,
                 itemCategory: 'item',
               );
+              var token = await FirebaseAuth.instance.currentUser?.getIdToken();
               launch(
                 url,
+                headers: {
+                  'Authentication': token != null ? 'Bearer $token' : ''
+                },
                 forceSafariVC: false,
               );
             }
