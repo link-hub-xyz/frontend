@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:linkhub/core/model/data_status.dart';
 import 'package:linkhub/core/model/hub.dart';
 import 'package:linkhub/core/redux/actions.dart';
+import 'package:linkhub/core/redux/analytics/actions.dart';
 import 'package:linkhub/core/redux/hubs/actions.dart';
 import 'package:linkhub/core/redux/state.dart';
 import 'package:linkhub/misc/app_router.dart';
@@ -20,18 +21,28 @@ class DashboardConnector extends StatelessWidget {
       StoreConnector<AppState, DashboardProps>(
         distinct: true,
         onInitialBuild: (props) {
-          final reload = props.reload;
-          if (reload != null) reload();
+          final reloadHubs = props.reloadHubs;
+          if (reloadHubs != null) reloadHubs();
+
+          final reloadAnalytics = props.reloadAnalytics;
+          if (reloadAnalytics != null) reloadAnalytics();
         },
         converter: (store) => DashboardProps(
           create: () => context.router.push(const NewHubConnectorRoute()),
-          reload: store.state.hubs.status == DataStatus.inProgress
+          reloadHubs: store.state.hubs.status == DataStatus.inProgress
               ? null
               : () => store.dispatch(const ReloadHubsAction()),
+          reloadAnalytics:
+              store.state.analytics.dashboard.status == DataStatus.inProgress
+                  ? null
+                  : () => store.dispatch(const ReloadAnalyticsAction()),
           hubs: store.state.hubs.order
               .map((id) => store.state.hubs.map[id])
               .whereType<Hub>()
               .toList(),
+          daily: store.state.analytics.dashboard.daily,
+          retention: store.state.analytics.dashboard.retention,
+          total: store.state.analytics.dashboard.total,
           more: (id) => {
             context.router.push(HubConnectorRoute(id: id)),
           },

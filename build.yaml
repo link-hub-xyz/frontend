@@ -10,8 +10,8 @@ targets:
               dart_type: String
           #   - graphql_type: Date
           #     dart_type: DateTime
-          #   - graphql_type: DateTime
-          #     dart_type: DateTime
+            - graphql_type: DateTime
+              dart_type: DateTime
           #   - graphql_type: ID
           #     dart_type: Id
           #     custom_parser_import: 'package:flowcode_scanner/core/network/graphql/types/id.dart'

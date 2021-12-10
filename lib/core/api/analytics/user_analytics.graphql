@@ -1,0 +1,20 @@
+query UserAnalytics() {
+  users {
+    me {
+      analytics {
+        daily {
+          value
+          date
+        }
+        retention {
+          value
+          date
+        }
+        total {
+          value
+          date
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:redux/redux.dart';
 import 'alert_middleware.dart';
+import 'analytics/middleware.dart';
 import 'auth/middleware.dart';
 import 'hubs/middleware.dart';
 import 'items/middleware.dart';
@@ -7,7 +8,8 @@ import 'logging_middleware.dart';
 import 'navigation_middleware.dart';
 import 'state.dart';
 
-final List<Middleware<AppState>> appMiddleware = authMiddlewares +
+final List<Middleware<AppState>> appMiddleware = analyticsMiddlewares +
+    authMiddlewares +
     hubsMiddlewares +
     itemsMiddlewares +
     [

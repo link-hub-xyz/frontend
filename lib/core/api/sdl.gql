@@ -1,3 +1,33 @@
+directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION
+
+enum Role {
+  OWNER
+  ADMIN
+  USER
+}
+
+type User {
+  analytics: Analytics!
+  id: String!
+  name: String!
+  hubs: [Hub!]!
+}
+
+type Analytics {
+  daily: [AnalyticsSampleData!]!
+  retention: [AnalyticsSampleData!]!
+  total: [AnalyticsSampleData!]!
+}
+
+type AnalyticsSampleData {
+  value: Int!
+  date: DateTime!
+}
+
+scalar DateTime
+
+scalar URL
+
 type Query {
   hub(id: String): Hub
   users: Users
@@ -7,8 +37,6 @@ type Mutation {
   createHub(name: String!): Hub!
   createItem(id: String!, url: URL!): Item!
 }
-
-scalar URL
 
 type Hub {
   id: String!
@@ -27,10 +55,4 @@ type Item {
 type Users {
   me: User
   user(id: String): User
-}
-
-type User {
-  id: String!
-  name: String!
-  hubs: [Hub!]!
 }
